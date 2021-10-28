@@ -3,7 +3,7 @@
 Build language model in Odia for predicting next set of words.
 
 ## Dependencies
-See the dependencies in `requirements.txt`.  :fire_alarm: TODO
+See the dependencies in `requirements.txt`.  ⏰ TODO
 The code has been tested with Python 3.6.
 
 ## Overview
@@ -19,7 +19,7 @@ tar -zxvf or.txt.gz
 head or
 ```
 
-- TODO
+- ⏰ TODO
 - Finally run `controller.py` to start the web app. Go to http://127.0.0.1:31137/generate to access the web app.
 
 ```shell
@@ -28,7 +28,7 @@ python controller.py  # open http://127.0.0.1:31137/generate in browser
 ```
 
 ## Snapshot of web app
-TODO
+⏰ TODO
 
 <img src="/snapshot.png" width="75%" height="75%"/>
 
