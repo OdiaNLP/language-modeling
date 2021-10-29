@@ -1,6 +1,8 @@
 import copy
+import os.path
 from typing import Dict
 
+import dill
 import numpy as np
 from indicnlp.tokenize.indic_detokenize import trivial_detokenize_indic
 from indicnlp.tokenize.indic_tokenize import trivial_tokenize_indic
@@ -9,21 +11,20 @@ from indicnlp.tokenize.indic_tokenize import trivial_tokenize_indic
 def generate_ngram_lm(model, inp: str, max_num_words: int) -> Dict[str, str]:
     """Generate text using ngram LM"""
 
-    # tokenize
-    context = trivial_tokenize_indic(inp)
-
     if max_num_words < 1:
         return {'generation': '', 'message': 'The value of maximum number of words should be positive.'}
 
-    if any([word not in model.vocab for word in context]):
-        return {'generation': '',
-                'message': 'At least one word in the input is out of vocabulary. Try with another input.'}
-
-    num_inp_tokens = len(context)
-
+    # tokenize
+    context = trivial_tokenize_indic(inp)
     if context == ['']:
         num_inp_tokens = 0
         context = None
+    else:
+        num_inp_tokens = len(context)
+
+    if context is not None and any([word not in model.vocab for word in context]):
+        return {'generation': '',
+                'message': 'At least one word in the input is out of vocabulary. Try with another input.'}
 
     if context is None:
         prefix = None
@@ -70,3 +71,10 @@ def generate_ngram_lm(model, inp: str, max_num_words: int) -> Dict[str, str]:
     detokenized_str = trivial_detokenize_indic(' '.join(post_processed_out_tokens))
 
     return {'generation': detokenized_str, 'message': ''}
+
+
+if __name__ == "__main__":
+    with open(os.path.join('ngram.lm.pkl'), 'rb') as f:
+        _model = dill.loads(f.read())
+
+    print(generate_ngram_lm(model=_model, inp='ପାଖରେ ରାଜ୍ୟ', max_num_words=50, ))
