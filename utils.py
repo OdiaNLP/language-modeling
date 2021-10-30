@@ -8,7 +8,7 @@ from indicnlp.tokenize.indic_detokenize import trivial_detokenize_indic
 from indicnlp.tokenize.indic_tokenize import trivial_tokenize_indic
 
 
-def generate_ngram_lm(model, inp: str, max_num_words: int) -> Dict[str, str]:
+def generate_using_ngram_lm(model, inp: str, max_num_words: int) -> Dict[str, str]:
     """Generate text using ngram LM"""
 
     if max_num_words < 1:
@@ -22,9 +22,12 @@ def generate_ngram_lm(model, inp: str, max_num_words: int) -> Dict[str, str]:
     else:
         num_inp_tokens = len(context)
 
-    if context is not None and any([word not in model.vocab for word in context]):
+    if context is not None:
+        oov_words = [word for word in context if word not in model.vocab]
+
+    if context is not None and len(oov_words) > 0:
         return {'generation': '',
-                'message': 'At least one word in the input is out of vocabulary. Try with another input.'}
+                'message': f'Some word(s) are out of vocabulary: {", ".join(oov_words)}. Try with another input.'}
 
     if context is None:
         prefix = None
@@ -81,4 +84,6 @@ if __name__ == "__main__":
     with open(os.path.join('ngram.lm.pkl'), 'rb') as f:
         _model = dill.loads(f.read())
 
-    print(generate_ngram_lm(model=_model, inp='ପାଖରେ ରାଜ୍ୟ', max_num_words=50, ))
+    print(generate_using_ngram_lm(model=_model,
+                                  inp='ପାଖରେ ରାଜ୍ୟ',
+                                  max_num_words=50, ))
