@@ -3,7 +3,7 @@
 Build language model in Odia for predicting next set of words.
 
 ## Dependencies
-See the dependencies in `requirements.txt`.
+See the dependencies in `requirements.txt`. ⏰ TODO: create `requirements.txt`.
 The code has been tested with Python 3.6.
 
 ## Overview
