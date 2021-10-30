@@ -1,0 +1,21 @@
+<form method=post action="">
+    <h2>Generate Odia text</h2>
+    <p>Enter the beginning of a sentence and click on submit button to generate text.</p>
+    <p>You may also generate with no input prefix. For doing this leave the input text box empty and click the submit button.</p>
+    <p>You may leave the other values to default values.</p>
+    <table>
+        {% for field in form %}
+        <tr>
+            <td>{{ field.label }}</td>
+            <td>{{ field }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <p><input type=submit value=Submit></form></p>
+
+<p>
+    {% if result != None %}
+<p style="color:red;"> {{ result.message }} </p>
+<p> {{ result.generation }} </p>
+{% endif %}
+</p>
