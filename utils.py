@@ -40,14 +40,18 @@ def generate_ngram_lm(model, inp: str, max_num_words: int) -> Dict[str, str]:
 
     output = context
     while output[-1] != '<eos>':
-        # Form conditional distribution to sample from
-        probs, tokens = [], []
-        for token in model.count[tuple(context)]:
-            p = model.count[tuple(context)][token] / model.total[tuple(context)]
-            probs.append(p)
-            tokens.append(token)
-        # Sample
-        wt = np.random.choice(tokens, p=probs)
+        if len(model.count[tuple(context)]) == 0:
+            # pick a word from the vocabulary uniformly at random
+            wt = np.random.choice(model.vocab, size=1)
+        else:
+            # Form conditional distribution to sample from
+            probs, tokens = [], []
+            for token in model.count[tuple(context)]:
+                p = model.count[tuple(context)][token] / model.total[tuple(context)]
+                probs.append(p)
+                tokens.append(token)
+            # Sample
+            wt = np.random.choice(tokens, p=probs)
         output = output + [wt]
         context = context[1:] + [wt]
     if prefix is not None:
