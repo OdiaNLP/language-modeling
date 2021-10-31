@@ -1,0 +1,6 @@
+numpy==1.19.4
+WTForms==2.3.3
+dill==0.3.3
+Flask==1.1.2
+indic_nlp_library==0.81
+indicnlp==0.0.1
